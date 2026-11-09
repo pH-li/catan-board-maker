@@ -1,0 +1,7 @@
+flowchart LR
+  UI["React components<br/>(designer · board · export)"] -->|selectors| ZS[("Zustand project store<br/>Immer · zundo · persist→IndexedDB")]
+  UI -->|actions| ZS
+  ZS -->|params| GW["geometry.worker.ts<br/>(Web Worker, preview detail)"]
+  GW -->|mesh buffers| V["R3F viewer<br/>Canvas · Instances · OrbitControls"]
+  UI --> TQ["TanStack Query<br/>uploads · exports · polling"]
+  TQ -->|"/api"| API[(API)]

@@ -1,0 +1,5 @@
+flowchart LR
+  I[install<br/>frozen lockfile] --> L[lint] & T[typecheck] & U[unit + coverage] & IT[integration<br/>Redis service] & S[security<br/>audit · gitleaks]
+  L & T & U & IT --> B[build]
+  B --> D[docker build<br/>Trivy · smoke test]
+  D & S & CQ[CodeQL] --> G{all green?} -->|yes| M[squash merge]

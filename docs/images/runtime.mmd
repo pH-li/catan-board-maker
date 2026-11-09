@@ -1,0 +1,17 @@
+flowchart LR
+  subgraph Host["User's computer"]
+    B["Browser<br/>React + R3F<br/>geometry: preview detail"]
+    subgraph Docker["Docker network (internal only)"]
+      WEB["web<br/>nginx (unprivileged)<br/>static files + security headers<br/>proxies /api"]
+      API["api<br/>Express 5 + Zod"]
+      WK["worker<br/>BullMQ worker<br/>geometry: full detail"]
+      R[("redis<br/>queue + job state")]
+    end
+    D[("./data<br/>uploads/ · exports/")]
+  end
+  B -->|"127.0.0.1:8080"| WEB
+  WEB -->|"/api/*"| API
+  API -->|"enqueue · status"| R
+  WK -->|"take job · progress"| R
+  API <-->|"read · write"| D
+  WK -->|"write STL / zip"| D

@@ -1,0 +1,7 @@
+flowchart LR
+  R[routes] --> C[controllers] --> S[services]
+  S --> P{{ports<br/>JobQueue · FileStore}}
+  BA[adapters/bullmq] -. implements .-> P
+  FA[adapters/fs] -. implements .-> P
+  MA[adapters/memory<br/>test fakes] -. implements .-> P
+  CR["server.ts / worker.ts<br/>(composition root)"] --> BA & FA

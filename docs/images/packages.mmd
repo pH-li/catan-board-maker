@@ -1,0 +1,8 @@
+flowchart BT
+  specs["packages/specs<br/>dimensions + piece counts"] --> schemas["packages/schemas<br/>Zod schemas + types"]
+  specs --> geometry["packages/geometry<br/>pure TS + manifold-3d + STL writer"]
+  schemas --> geometry
+  geometry --> web["apps/web"]
+  schemas --> web
+  geometry --> api["apps/api"]
+  schemas --> api

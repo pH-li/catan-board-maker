@@ -1,0 +1,90 @@
+name: Bug report
+description: Something isn't working, or a printed piece doesn't come out right.
+title: "bug: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting! **Found a security problem?** Don't put exploit details in a public issue. Follow [Reporting a vulnerability](https://github.com/pH-li/catan-board-maker/blob/main/ARCHITECTURE.md#reporting-a-vulnerability) instead.
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Piece designer
+        - Board builder
+        - Export / STL files
+        - Project import / export
+        - Setup / Docker
+        - Documentation
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: A clear description of the problem.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open the designer and select "Settlement"
+        2. Set engrave depth to 2 mm
+        3. Click "Export"
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect to happen?
+    validations:
+      required: true
+  - type: textarea
+    id: print-details
+    attributes:
+      label: Print details (for STL or fit problems)
+      description: Slicer and printer used, and the measured size compared with the expected size.
+      placeholder: "PrusaSlicer 2.8, Bambu A1. Hex measured 78.2 mm flat-to-flat, expected 79 mm."
+  - type: dropdown
+    id: run-mode
+    attributes:
+      label: How are you running Hex Set Studio?
+      options:
+        - docker compose up (user setup)
+        - pnpm dev (development setup)
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version or commit
+      description: Release tag, or the output of `git rev-parse --short HEAD`.
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      placeholder: "Windows 11, Docker Desktop 4.x, Chrome 130"
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs
+      description: Relevant output from `docker compose logs api worker` or the browser console. Remove anything private.
+      render: shell
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I searched existing issues and this hasn't been reported.
+          required: true
+        - label: This public issue doesn't include security exploit details.
+          required: true

@@ -1,0 +1,26 @@
+flowchart LR
+  subgraph Untrusted["Untrusted"]
+    EXT["Other websites<br/>open in the browser"]
+    ZIP["Project zips<br/>from other people"]
+    IMG["Image files"]
+    LAN["Other devices<br/>on the network"]
+  end
+  subgraph Browser["Browser — boundary ①"]
+    APP["Hex Set Studio UI<br/>(origin 127.0.0.1:8080)"]
+  end
+  subgraph Containers["Docker network — boundary ②"]
+    WEB[web / nginx]
+    API[api]
+    WK[worker]
+    R[(redis)]
+  end
+  FS[("./data — boundary ③")]
+  ZIP -->|import| APP
+  IMG -->|select + upload| APP
+  APP -->|HTTP /api| WEB --> API
+  EXT -. "CSRF / DNS rebinding attempts" .-> WEB
+  LAN -. "blocked: not published" .-x API
+  API --> R
+  WK --> R
+  API --> FS
+  WK --> FS
