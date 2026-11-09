@@ -4,7 +4,7 @@
 
 Hex Set Studio comes with the real measurements of the base game's components built in. You customize how each piece looks, arrange your tiles on a 3D board, and download print-ready files. It runs entirely on your own computer.
 
-> 🚧 **Status: early development (Phase 0: foundations).** The app isn't usable yet. This README describes v1 as planned. Follow along in the [roadmap](docs/ARCHITECTURE.md#build-roadmap).
+> 🚧 **Status: early development (Phase 0: foundations).** The app isn't usable yet. This README describes v1 as planned. Follow along in the [roadmap](ARCHITECTURE.md#roadmap).
 
 ## Features (v1)
 
@@ -41,7 +41,7 @@ Then open **http://localhost:8080**.
 
 **Your files:** exports and uploads are stored in the `data/` folder inside the project and removed automatically after 24 hours. Your designs are saved in your browser. Use **Export project** to keep a backup or share a design.
 
-> 🔒 The app is only reachable from your own computer (`127.0.0.1`). Don't expose it to the internet or your local network; it isn't designed for that. See [SECURITY.md](SECURITY.md).
+> 🔒 The app is only reachable from your own computer (`127.0.0.1`). Don't expose it to the internet or your local network; it isn't designed for that. See [ARCHITECTURE.md → Security](ARCHITECTURE.md#security).
 
 ## How it works
 
@@ -55,7 +55,7 @@ flowchart LR
   API --> D
 ```
 
-A design is a set of parameters. The same TypeScript geometry code builds the live preview in your browser and the final STL in the background worker, so **what you see is exactly what prints**. Details are in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
+A design is a set of parameters. The same TypeScript geometry code builds the live preview in your browser and the final STL in the background worker, so **what you see is exactly what prints**. Details are in [ARCHITECTURE.md](ARCHITECTURE.md).
 
 ## Tech stack
 
@@ -68,7 +68,7 @@ A design is a set of parameters. The same TypeScript geometry code builds the li
 | Runtime | Docker Compose |
 | Quality | Vitest, React Testing Library, Supertest, Playwright, fast-check, ESLint, Prettier, GitHub Actions, CodeQL, Trivy, gitleaks |
 
-Every choice has a written rationale in the [Architecture Decision Records](docs/adr/README.md).
+Every choice has a written rationale in [ARCHITECTURE.md → Design decisions](ARCHITECTURE.md#design-decisions).
 
 ## Repository layout
 
@@ -80,19 +80,15 @@ packages/
   specs/            component dimensions + counts (single source of truth)
   schemas/          Zod schemas shared by web and api
   geometry/         pure mesh builders + STL writer
-docs/
-  ARCHITECTURE.md   system design and diagrams
-  CODING_STANDARDS.md
-  THREAT_MODEL.md
-  adr/              architecture decision records
+docs/images/        screenshots and diagrams used by the docs
+ARCHITECTURE.md     system design, decisions, security, testing
+CONTRIBUTING.md     dev setup, workflow, coding standards
+AGENTS.md           instructions for AI coding agents
 ```
 
 ## Contributing
 
-Contributions are welcome! Start with [CONTRIBUTING.md](CONTRIBUTING.md) for the dev setup, workflow and standards. AI coding agents should read [AGENTS.md](AGENTS.md).
-
-- [Code of Conduct](CODE_OF_CONDUCT.md)
-- [Security policy](SECURITY.md)
+Contributions are welcome! Start with [CONTRIBUTING.md](CONTRIBUTING.md) for the dev setup, workflow and standards. AI coding agents should read [AGENTS.md](AGENTS.md). Found a security issue? Please report it privately (see [ARCHITECTURE.md → Reporting a vulnerability](ARCHITECTURE.md#reporting-a-vulnerability)).
 
 ## Roadmap
 
