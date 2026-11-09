@@ -1,0 +1,26 @@
+sequenceDiagram
+  participant B as Browser
+  participant A as API
+  participant F as FileStore (data/)
+  participant Q as JobQueue (BullMQ/Redis)
+  participant W as Worker
+  B->>A: POST /api/uploads (multipart, optional, one per image)
+  A->>A: size limit · magic bytes · pixel dimensions
+  A->>F: save uploads/{imageId}
+  A-->>B: 201 {imageId}
+  B->>A: POST /api/exports {pieces, board, imageIds}
+  A->>A: Zod validation + complexity budget
+  A->>Q: enqueue(jobId = UUID, attempts 3, backoff)
+  A-->>B: 202 {jobId}
+  Q->>W: deliver job
+  W->>F: read images
+  W->>W: build meshes → manifold + wall checks → STL / zip
+  W->>Q: progress %
+  W->>F: write exports/{jobId}.tmp → atomic rename
+  W->>Q: completed
+  loop every 1–2 s until completed or failed
+    B->>A: GET /api/exports/{jobId}
+    A-->>B: {status, progress}
+  end
+  B->>A: GET /api/exports/{jobId}/download
+  A-->>B: file stream (Content-Disposition: attachment)

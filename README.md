@@ -45,15 +45,7 @@ Then open **http://localhost:8080**.
 
 ## How it works
 
-```mermaid
-flowchart LR
-  B["Your browser<br/>designer + 3D preview"] -->|localhost:8080| WEB[web]
-  WEB --> API[api]
-  API --> Q[(redis queue)]
-  Q --> W[worker<br/>builds STL / zip]
-  W --> D[(data/)]
-  API --> D
-```
+![Overview: browser to web to api, which queues jobs in Redis for the worker; files go to the data folder](docs/images/overview.png)
 
 A design is a set of parameters. The same TypeScript geometry code builds the live preview in your browser and the final STL in the background worker, so **what you see is exactly what prints**. Details are in [ARCHITECTURE.md](ARCHITECTURE.md).
 

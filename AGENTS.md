@@ -12,7 +12,7 @@ apps/api           Express 5 API (server.ts) + BullMQ worker (worker.ts)
 packages/specs     component dimensions (mm) + counts: the single source of truth
 packages/schemas   Zod schemas + inferred types + limits
 packages/geometry  pure mesh builders (manifold-3d) + STL writer
-docs/images/       images referenced from ARCHITECTURE.md / README.md
+docs/images/       diagrams (.mmd source + rendered .png) and screenshots used by the docs
 ```
 
 The documentation is deliberately limited to `README.md`, `CONTRIBUTING.md`, `ARCHITECTURE.md`, `AGENTS.md` and `LICENSE` (`CLAUDE.md` only imports this file for Claude Code). **Don't create new Markdown files.** Add to the existing ones.
@@ -53,7 +53,7 @@ Follow [CONTRIBUTING.md → Coding standards](CONTRIBUTING.md#6-coding-standards
 
 - `pnpm lint`, `pnpm typecheck` and `pnpm test` pass (plus `pnpm test:integration` when touching `apps/api`).
 - New behaviour has tests, and bug fixes include a regression test.
-- Docs are updated in the same change: README for user-visible behaviour; ARCHITECTURE.md for structure, **Design decisions**, and **Security** (new inputs, endpoints, services).
+- Docs are updated in the same change: README for user-visible behaviour; ARCHITECTURE.md for structure, **Design decisions**, and **Security** (new inputs, endpoints, services). If you edit a diagram's `.mmd`, re-render its `.png` (command in CONTRIBUTING → Adding images).
 - Report honestly what you ran and what failed. Never claim checks passed without running them.
 
 ## Workflow

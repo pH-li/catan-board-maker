@@ -1,0 +1,7 @@
+flowchart LR
+  B["Your browser<br/>designer + 3D preview"] -->|localhost:8080| WEB[web]
+  WEB --> API[api]
+  API --> Q[(redis queue)]
+  Q --> W[worker<br/>builds STL / zip]
+  W --> D[(data/)]
+  API --> D

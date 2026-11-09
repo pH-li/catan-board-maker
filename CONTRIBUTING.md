@@ -276,7 +276,15 @@ See [ARCHITECTURE.md → Testing strategy](ARCHITECTURE.md#testing-strategy) for
 Explain in the PR why it's needed, check that it's maintained, and check whether it runs install scripts (pnpm blocks them unless allow-listed). If it shapes the architecture, add it to [Design decisions](ARCHITECTURE.md#design-decisions).
 
 ### Adding images to the docs
-Put them in `docs/images/` with descriptive kebab-case names (`export-dialog.png`) and reference them from ARCHITECTURE.md or the README. Prefer Mermaid for diagrams so they stay editable.
+All images live in `docs/images/` with descriptive kebab-case names (`export-dialog.png`), and are referenced from ARCHITECTURE.md or the README with meaningful alt text.
+
+**Diagrams** are written in Mermaid (`docs/images/<name>.mmd`) and committed alongside a rendered PNG (`<name>.png`). After editing a `.mmd` file, re-render its PNG and commit both:
+
+```bash
+npx -y @mermaid-js/mermaid-cli@11.17.0 -i docs/images/runtime.mmd -o docs/images/runtime.png -b white -s 2
+```
+
+Preview a diagram while editing at https://mermaid.live, or with a Mermaid extension in VS Code.
 
 ## 9. Troubleshooting
 

@@ -4,7 +4,7 @@
 
 **Contents:** [Overview](#overview) · [Runtime](#runtime) · [Export flow](#export-flow) · [Code structure](#code-structure) · [Frontend](#frontend) · [Environments](#environments) · [Invariants](#invariants) · [Design decisions](#design-decisions) · [Security](#security) · [Testing strategy](#testing-strategy) · [Roadmap](#roadmap)
 
-Diagrams are written in Mermaid, so GitHub renders them and they're easy to change in a PR. Other images (screenshots, renders, exported diagrams) live in [`docs/images/`](docs/images/) and are referenced from here, for example `![Board builder](docs/images/board-builder.png)`.
+All images live in [`docs/images/`](docs/images/). Each diagram is a PNG rendered from a Mermaid source file (`.mmd`) next to it, so diagrams stay editable as text and reviewable in PRs. To change a diagram, edit its `.mmd` and re-render it (see [CONTRIBUTING → Adding images](CONTRIBUTING.md#adding-images-to-the-docs)). Screenshots and renders go in the same folder.
 
 ## Overview
 
@@ -22,25 +22,9 @@ The same geometry code builds the live preview and the exported file, so **the p
 
 What `docker compose up` starts on a user's machine:
 
-```mermaid
-flowchart LR
-  subgraph Host["User's computer"]
-    B["Browser<br/>React + R3F<br/>geometry: preview detail"]
-    subgraph Docker["Docker network (internal only)"]
-      WEB["web<br/>nginx (unprivileged)<br/>static files + security headers<br/>proxies /api"]
-      API["api<br/>Express 5 + Zod"]
-      WK["worker<br/>BullMQ worker<br/>geometry: full detail"]
-      R[("redis<br/>queue + job state")]
-    end
-    D[("./data<br/>uploads/ · exports/")]
-  end
-  B -->|"127.0.0.1:8080"| WEB
-  WEB -->|"/api/*"| API
-  API -->|"enqueue · status"| R
-  WK -->|"take job · progress"| R
-  API <-->|"read · write"| D
-  WK -->|"write STL / zip"| D
-```
+![Runtime: the browser talks to web on 127.0.0.1:8080, which proxies to the api; api and worker share Redis and the data folder](docs/images/runtime.png)
+
+<sub>Source: [`docs/images/runtime.mmd`](docs/images/runtime.mmd)</sub>
 
 | Service | Responsibility | Published? |
 |---|---|---|
@@ -53,34 +37,9 @@ flowchart LR
 
 ## Export flow
 
-```mermaid
-sequenceDiagram
-  participant B as Browser
-  participant A as API
-  participant F as FileStore (data/)
-  participant Q as JobQueue (BullMQ/Redis)
-  participant W as Worker
-  B->>A: POST /api/uploads (multipart, optional, one per image)
-  A->>A: size limit · magic bytes · pixel dimensions
-  A->>F: save uploads/{imageId}
-  A-->>B: 201 {imageId}
-  B->>A: POST /api/exports {pieces, board, imageIds}
-  A->>A: Zod validation + complexity budget
-  A->>Q: enqueue(jobId = UUID, attempts 3, backoff)
-  A-->>B: 202 {jobId}
-  Q->>W: deliver job
-  W->>F: read images
-  W->>W: build meshes → manifold + wall checks → STL / zip
-  W->>Q: progress %
-  W->>F: write exports/{jobId}.tmp → atomic rename
-  W->>Q: completed
-  loop every 1–2 s until completed or failed
-    B->>A: GET /api/exports/{jobId}
-    A-->>B: {status, progress}
-  end
-  B->>A: GET /api/exports/{jobId}/download
-  A-->>B: file stream (Content-Disposition: attachment)
-```
+![Export flow: upload, create job, worker builds the STL or zip, browser polls status, then downloads](docs/images/export-flow.png)
+
+<sub>Source: [`docs/images/export-flow.mmd`](docs/images/export-flow.mmd)</sub>
 
 **Reliability properties:**
 - **Idempotent enqueue:** the `jobId` is the BullMQ job ID, so a duplicate submit doesn't create duplicate work.
@@ -92,16 +51,9 @@ sequenceDiagram
 
 ### Packages
 
-```mermaid
-flowchart BT
-  specs["packages/specs<br/>dimensions + piece counts"] --> schemas["packages/schemas<br/>Zod schemas + types"]
-  specs --> geometry["packages/geometry<br/>pure TS + manifold-3d + STL writer"]
-  schemas --> geometry
-  geometry --> web["apps/web"]
-  schemas --> web
-  geometry --> api["apps/api"]
-  schemas --> api
-```
+![Package dependencies: specs feeds schemas and geometry, which both feed the web and api apps](docs/images/packages.png)
+
+<sub>Source: [`docs/images/packages.mmd`](docs/images/packages.mmd)</sub>
 
 | Package | Contains | Must not contain |
 |---|---|---|
@@ -132,15 +84,9 @@ Base-set counts: 19 hexes (4 forest, 4 pasture, 4 fields, 3 hills, 3 mountains, 
 
 ### Backend layers (ports and adapters)
 
-```mermaid
-flowchart LR
-  R[routes] --> C[controllers] --> S[services]
-  S --> P{{ports<br/>JobQueue · FileStore}}
-  BA[adapters/bullmq] -. implements .-> P
-  FA[adapters/fs] -. implements .-> P
-  MA[adapters/memory<br/>test fakes] -. implements .-> P
-  CR["server.ts / worker.ts<br/>(composition root)"] --> BA & FA
-```
+![Backend layers: routes to controllers to services to ports, with BullMQ, filesystem and in-memory adapters](docs/images/backend-layers.png)
+
+<sub>Source: [`docs/images/backend-layers.mmd`](docs/images/backend-layers.mmd)</sub>
 
 - **Controllers** handle HTTP only. **Services** hold the business logic and depend on **ports** (interfaces), never on adapters. A lint rule enforces this.
 - `LocalFileStore` is the **only** code that touches the filesystem, and it confines every path to `DATA_DIR`.
@@ -160,15 +106,9 @@ flowchart LR
 
 ## Frontend
 
-```mermaid
-flowchart LR
-  UI["React components<br/>(designer · board · export)"] -->|selectors| ZS[("Zustand project store<br/>Immer · zundo · persist→IndexedDB")]
-  UI -->|actions| ZS
-  ZS -->|params| GW["geometry.worker.ts<br/>(Web Worker, preview detail)"]
-  GW -->|mesh buffers| V["R3F viewer<br/>Canvas · Instances · OrbitControls"]
-  UI --> TQ["TanStack Query<br/>uploads · exports · polling"]
-  TQ -->|"/api"| API[(API)]
-```
+![Frontend state: components use the Zustand store, a Web Worker builds preview meshes for the R3F viewer, TanStack Query talks to the API](docs/images/frontend-state.png)
+
+<sub>Source: [`docs/images/frontend-state.mmd`](docs/images/frontend-state.mmd)</sub>
 
 - **Project state** (Zustand) holds design parameters and the board layout. Components subscribe through selectors, so a slider drag re-renders only what depends on it.
 - **Geometry runs off the main thread** in a Web Worker, so the UI stays responsive.
@@ -248,34 +188,9 @@ There are no accounts, no personal data and no secrets.
 
 ### Trust boundaries
 
-```mermaid
-flowchart LR
-  subgraph Untrusted["Untrusted"]
-    EXT["Other websites<br/>open in the browser"]
-    ZIP["Project zips<br/>from other people"]
-    IMG["Image files"]
-    LAN["Other devices<br/>on the network"]
-  end
-  subgraph Browser["Browser — boundary ①"]
-    APP["Hex Set Studio UI<br/>(origin 127.0.0.1:8080)"]
-  end
-  subgraph Containers["Docker network — boundary ②"]
-    WEB[web / nginx]
-    API[api]
-    WK[worker]
-    R[(redis)]
-  end
-  FS[("./data — boundary ③")]
-  ZIP -->|import| APP
-  IMG -->|select + upload| APP
-  APP -->|HTTP /api| WEB --> API
-  EXT -. "CSRF / DNS rebinding attempts" .-> WEB
-  LAN -. "blocked: not published" .-x API
-  API --> R
-  WK --> R
-  API --> FS
-  WK --> FS
-```
+![Trust boundaries: untrusted zips, images, websites and network devices versus the browser, Docker network and data folder](docs/images/trust-boundaries.png)
+
+<sub>Source: [`docs/images/trust-boundaries.mmd`](docs/images/trust-boundaries.mmd)</sub>
 
 - **① Browser:** imported zips and selected images are validated before use.
 - **② API edge:** every request is untrusted, even from our own UI. Any website or local program can send requests to localhost.
@@ -346,13 +261,9 @@ Please **don't open a public issue.** Use GitHub's private reporting: the reposi
 
 ### CI pipeline
 
-```mermaid
-flowchart LR
-  I[install<br/>frozen lockfile] --> L[lint] & T[typecheck] & U[unit + coverage] & IT[integration<br/>Redis service] & S[security<br/>audit · gitleaks]
-  L & T & U & IT --> B[build]
-  B --> D[docker build<br/>Trivy · smoke test]
-  D & S & CQ[CodeQL] --> G{all green?} -->|yes| M[squash merge]
-```
+![CI pipeline: install, then lint, typecheck, unit, integration and security in parallel, then build, docker checks and CodeQL before merge](docs/images/ci-pipeline.png)
+
+<sub>Source: [`docs/images/ci-pipeline.mmd`](docs/images/ci-pipeline.mmd)</sub>
 
 Each job is a separate required check on the PR.
 
