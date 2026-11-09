@@ -80,7 +80,7 @@ AGENTS.md           instructions for AI coding agents
 
 ## Contributing
 
-Contributions are welcome! Start with [CONTRIBUTING.md](CONTRIBUTING.md) for the dev setup, workflow and standards. AI coding agents should read [AGENTS.md](AGENTS.md). Found a security issue? Please report it privately (see [ARCHITECTURE.md → Reporting a vulnerability](ARCHITECTURE.md#reporting-a-vulnerability)).
+Contributions are welcome! Start with [CONTRIBUTING.md](CONTRIBUTING.md) for the dev setup, workflow and standards. AI coding agents should read [AGENTS.md](AGENTS.md). Found a security issue? Please don't post exploit details publicly; see [ARCHITECTURE.md → Reporting a vulnerability](ARCHITECTURE.md#reporting-a-vulnerability).
 
 ## Roadmap
 

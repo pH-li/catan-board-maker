@@ -20,7 +20,7 @@ Thanks for helping! This guide covers the development setup, how work flows from
 
 - Read [ARCHITECTURE.md](ARCHITECTURE.md). It covers how the system fits together, the **design decisions** and why we made them, and the **security** model.
 - **Be respectful.** Assume good intent, keep feedback about the code rather than the person, and help newcomers.
-- **Found a security issue?** Don't open a public issue. Report it privately (see [ARCHITECTURE.md → Reporting a vulnerability](ARCHITECTURE.md#reporting-a-vulnerability)).
+- **Found a security issue?** Don't post exploit details publicly. Follow [ARCHITECTURE.md → Reporting a vulnerability](ARCHITECTURE.md#reporting-a-vulnerability).
 
 ## 2. Running locally for development
 
@@ -308,5 +308,5 @@ One-time GitHub repository settings:
 
 - **Merging:** squash merge only (PR title as the commit title, description as the body); delete head branches automatically. ✅ Already configured.
 - **Branch protection on `main`:** require a PR, require the CI status checks to pass with the branch up to date, block force pushes and deletion. Set this up once the CI workflow exists.
-- **Security:** Dependabot alerts and security updates, secret scanning with **push protection**, and **private vulnerability reporting**.
+- **Security:** Dependabot alerts and security updates, and secret scanning with **push protection**.
 - **Actions:** default workflow permissions set to **read-only**.

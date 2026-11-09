@@ -6,7 +6,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        Thanks for reporting! **Security problems should not be reported here.** Use the private report link on the "New issue" page instead.
+        Thanks for reporting! **Found a security problem?** Don't put exploit details in a public issue. Follow [Reporting a vulnerability](https://github.com/pH-li/catan-board-maker/blob/main/ARCHITECTURE.md#reporting-a-vulnerability) instead.
   - type: dropdown
     id: area
     attributes:
@@ -86,5 +86,5 @@ body:
       options:
         - label: I searched existing issues and this hasn't been reported.
           required: true
-        - label: This is not a security vulnerability.
+        - label: This public issue doesn't include security exploit details.
           required: true

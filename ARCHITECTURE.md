@@ -242,7 +242,7 @@ HSTS isn't used, because the app is served over plain HTTP on localhost by desig
 
 ### Reporting a vulnerability
 
-Please **don't open a public issue.** Use GitHub's private reporting: the repository's **Security** tab → **Report a vulnerability**. Include the issue, steps to reproduce, the impact and your environment. This is a volunteer project, so responses are best-effort (acknowledgement within about 7 days).
+Please **don't post exploit details publicly.** Open an issue titled **"Security: <short summary>"** that names only the affected area (for example "project import" or "uploads"), with no steps to reproduce or proof of concept. The maintainer will reply to arrange a private way to share the details. This is a volunteer project, so responses are best-effort (acknowledgement within about 7 days).
 
 ## Testing strategy
 
