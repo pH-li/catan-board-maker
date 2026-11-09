@@ -41,7 +41,7 @@ Then open **http://localhost:8080**.
 
 **Your files:** exports and uploads are stored in the `data/` folder inside the project and removed automatically after 24 hours. Your designs are saved in your browser. Use **Export project** to keep a backup or share a design.
 
-> 🔒 The app is only reachable from your own computer (`127.0.0.1`). Don't expose it to the internet or your local network; it isn't designed for that. See [ARCHITECTURE.md → Security](ARCHITECTURE.md#security).
+> 🔒 The app is only available from localhost (your own computer). Don't expose it to the internet or your local network; it isn't designed for that. See [ARCHITECTURE.md → Security](ARCHITECTURE.md#security).
 
 ## How it works
 
