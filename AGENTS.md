@@ -15,7 +15,7 @@ packages/geometry  pure mesh builders (manifold-3d) + STL writer
 docs/images/       images referenced from ARCHITECTURE.md / README.md
 ```
 
-The documentation is deliberately limited to `README.md`, `CONTRIBUTING.md`, `ARCHITECTURE.md`, `AGENTS.md` and `LICENSE`. **Don't create new Markdown files.** Add to the existing ones.
+The documentation is deliberately limited to `README.md`, `CONTRIBUTING.md`, `ARCHITECTURE.md`, `AGENTS.md` and `LICENSE` (`CLAUDE.md` only imports this file for Claude Code). **Don't create new Markdown files.** Add to the existing ones.
 
 Status: Phase 0 (foundations). Some commands below arrive with the tooling phase. If a script doesn't exist yet, say so; don't invent one.
 
