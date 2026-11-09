@@ -1,0 +1,62 @@
+name: Feature request
+description: Suggest a new piece option, feature or improvement.
+title: "feat: "
+labels: ["enhancement"]
+body:
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Piece designer
+        - Board builder
+        - Export / STL files
+        - Project import / export
+        - Setup / Docker
+        - Documentation
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem would this solve?
+      description: Describe what you're trying to do and what gets in the way.
+      placeholder: "I want my settlements to match my castle-themed board, but the roof options are..."
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed solution
+      description: How you imagine it working. Mockups or sketches are welcome.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Other ways to solve it, or workarounds you use today.
+  - type: dropdown
+    id: scope
+    attributes:
+      label: Which components does this involve?
+      options:
+        - Base game components
+        - Expansion components (planned for later)
+        - Not component-specific
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Links, reference photos, measurements (in mm), or anything else.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I searched existing issues and this hasn't been requested.
+          required: true
+        - label: I'd be interested in helping build this.

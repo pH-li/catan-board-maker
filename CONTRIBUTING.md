@@ -108,7 +108,7 @@ To reset the browser's saved project, clear site data for `localhost` in your br
 issue  →  branch  →  commits  →  pull request  →  CI green + review  →  squash merge  →  branch auto-deleted
 ```
 
-1. **Start from an issue.** Open one or comment on an existing one to say you're working on it. For anything big, discuss the approach in the issue first.
+1. **Start from an issue.** Open one using the **Bug report** or **Feature request** form, or comment on an existing issue to say you're working on it. For anything big, discuss the approach in the issue first.
 2. **Changing a design decision?** Update the [Design decisions](ARCHITECTURE.md#design-decisions) section of ARCHITECTURE.md in the same PR, and explain the reasoning in the PR description.
 3. **Keep changes small.** One feature or fix per branch and PR. Large features are split into several PRs that each leave `main` working.
 
@@ -159,7 +159,7 @@ docs: add export flow diagram
 ## 5. Pull requests
 
 - **Title:** a Conventional Commit. It becomes the squash commit on `main`, and the description becomes its body.
-- **Description:** what and why, how you tested it, screenshots for UI changes, and the security questions below.
+- **Description:** GitHub pre-fills it from the [PR template](.github/pull_request_template.md). Fill in what and why, how you tested it, screenshots for UI changes, and the checklist and security questions.
 - **Link the issue** (`Closes #12`).
 - **Size:** aim for under about 400 changed lines, excluding lockfiles and generated files.
 - **Merging:** squash merge is the only option. Branches are deleted automatically.

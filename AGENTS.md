@@ -15,7 +15,7 @@ packages/geometry  pure mesh builders (manifold-3d) + STL writer
 docs/images/       diagrams (.mmd source + rendered .png) and screenshots used by the docs
 ```
 
-The documentation is deliberately limited to `README.md`, `CONTRIBUTING.md`, `ARCHITECTURE.md`, `AGENTS.md` and `LICENSE` (`CLAUDE.md` only imports this file for Claude Code). **Don't create new Markdown files.** Add to the existing ones.
+The documentation is deliberately limited to `README.md`, `CONTRIBUTING.md`, `ARCHITECTURE.md`, `AGENTS.md` and `LICENSE` (`CLAUDE.md` only imports this file for Claude Code; `.github/` holds the PR template and issue forms). **Don't create new Markdown files.** When opening a PR, fill in every section of `.github/pull_request_template.md`. Add to the existing ones.
 
 Status: Phase 0 (foundations). Some commands below arrive with the tooling phase. If a script doesn't exist yet, say so; don't invent one.
 
